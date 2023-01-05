@@ -1,0 +1,22 @@
+{
+  "name": "github-changelog-and-jira",
+  "version": "1.0.0",
+  "description": "Read a file from github, parse it , Send the result as a input to the jira API to find the ticket and update the status",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "jira",
+    "github",
+    "changelog",
+    "oas",
+    "express"
+  ],
+  "author": "Kiri23",
+  "license": "ISC",
+  "dependencies": {
+    "@octokit/rest": "^19.0.5",
+    "dotenv": "^16.0.3"
+  }
+}
