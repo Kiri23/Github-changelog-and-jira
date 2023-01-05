@@ -1,76 +1,37 @@
-const jira = require("jira-client");
 const dotenv = require('dotenv');
-
-const fetch = require('node-fetch');
 
 dotenv.config();
 
-async function updateTicketStatus(ticketId, newStatus, jiraAuth) {
-  // Crear una instancia de JIRA Client con las credenciales de autenticación
-  const jiraClient = new jira(jiraAuth);
-  console.log(jiraClient);
+const axios = require("axios");
 
-  // Buscar el ticket en JIRA
-  const issue = await jiraClient.findIssue(ticketId);
-
-  // Actualizar el estado del ticket
-  await jiraClient.updateIssue(issue.key, {
-    fields: {
-      status: {
-        name: newStatus,
+// TODO: este llamada es bastante similar a la llamada de JIRA. Hiciera sentido usar una interfaz?
+async function updateTicketSummary(ticketId, newSummary) {
+  try {
+    const response = await axios.put(
+      `https://Kiri23.atlassian.net/rest/api/3/issue/${ticketId}`,
+      {
+        fields: {
+          summary: newSummary,
+        },
       },
-    },
-  });
-
-  console.log(`El ticket ${ticketId} ha sido actualizado con éxito al estado "${newStatus}"`);
-}
-
-// // Ejemplo de uso: actualizar el estado del ticket "PPA-1" a "En curso"
-// updateTicketStatus("PPA-1", "En Curso", {
-//   protocol: "https",
-//   host: "kiri23.atlassian.net",
-//   bearer: process.env.JIRA_TOKEN,
-//   apiVersion: "3",
-//   strictSSL: true,
-// });
-
-
-/**
- * curl --request PUT \
-  --url 'https://kiri23.atlassian.net/rest/api/3/issue/PPA-1' \
-  --user 'christian_nogueras94@hotmail.com:token from env' \
-  --header 'Accept: application/json' \
-  --header 'Content-Type: application/json' \
-  --data '{
-   "fields":{
-      "status":{
-         "name":"In progress"
+      {
+        auth:{
+            username:"christian_nogueras94@hotmail.com",
+            password:process.env.JIRA_TOKEN
+        },
+        headers: {
+          "Content-Type": "application/json",
+          'Accept': 'application/json',
+        },
       }
-   }
-}'
- * @param {*} issueId 
- */
-const updateTicketStatus2 = async (issueId) => {
-    // This code sample uses the 'node-fetch' library:
-    // https://www.npmjs.com/package/node-fetch
+    );
 
-    fetch(`https://kiri23.atlassian.net/rest/api/3/issue/${issueId}`, {
-    method: 'GET',
-    headers: {
-        'Authorization': `Basic ${Buffer.from(
-        `christian_nogueras94@hotmail.com:${process.env.JIRA_TOKEN}`
-        ).toString('base64')}`,
-        'Accept': 'application/json'
-    }
-    })
-    .then(response => {
-        console.log(
-        `Response: ${response.status} ${response.statusText}`
-        );
-        return response.text();
-    })
-    .then(text => console.log(text))
-    .catch(err => console.error(err));
+    console.log(`El resumen del ticket ${ticketId} ha sido actualizado con éxito`);
+  } catch (error) {
+    console.log(error.response)
+    console.error(error.response.data);
+  }
 }
 
-updateTicketStatus2("PPA-1")
+// Ejemplo de uso: actualizar el resumen del ticket "PPA-2"
+updateTicketSummary("PPA-2", "Nuevo resumen del ticket usando API");
