@@ -4,7 +4,7 @@ dotenv.config();
 
 const axios = require("axios");
 
-// TODO: este llamada es bastante similar a la llamada de JIRA. Hiciera sentido usar una interfaz?
+// TODO: este llamada es bastante similar a la llamada de Github. Hiciera sentido usar una interfaz?
 async function updateTicketSummary(ticketId, newSummary) {
   try {
     const response = await axios.put(
