@@ -11,8 +11,8 @@ const getChangelog = async () => {
   // Obtener el contenido del archivo changelog del repositorio privado de GitHub
   const { data: changelog } = await octokit.repos.getContent({
     owner: "Kiri23",
-    repo: "node-rest-api-swagger-getting-started",
-    path: "README.md",
+    repo: "theme-forest-portfolio",
+    path: "readme.md"
   });
   return Buffer.from(changelog.content, "base64").toString("utf8");
 }
