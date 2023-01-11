@@ -18,6 +18,7 @@
   "dependencies": {
     "@octokit/rest": "^19.0.5",
     "axios": "^1.2.2",
+    "changelog-parser": "^3.0.1",
     "dotenv": "^16.0.3"
   }
 }
