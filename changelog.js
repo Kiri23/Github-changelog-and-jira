@@ -73,12 +73,12 @@ ticket number. Ese arreglo luego se pasa a JIRA para que transactiones los ticke
 
 
 
-(async () => {
-    const data = await parse("./CHANGELOG.md")
-    const {parsedTicketNumbers, features} = getTicketNumber(data, "3.1.26")
-    console.log(parsedTicketNumbers)
-    console.log(parsedTicketNumbers.length)
-    console.log(features._.length)
-})();
+// (async () => {
+//     const data = await parse("./CHANGELOG.md")
+//     const {parsedTicketNumbers, features} = getTicketNumber(data, "3.1.26")
+//     console.log(parsedTicketNumbers)
+//     console.log(parsedTicketNumbers.length)
+//     console.log(features._.length)
+// })();
 
-module.exports = {getTicketNumber}
+module.exports = {getTicketNumber, parse}

@@ -1,29 +1,30 @@
-const dotenv = require('dotenv');
-
-dotenv.config();
-
 const axios = require("axios");
 
+const configureJira = (JiraMeta) => {
+ return axios.create({
+    baseURL: JiraMeta.instanceURL, // https://Kiri23.atlassian.net/
+    auth:{
+      username:JiraMeta.username, //"christian_nogueras94@hotmail.com"
+      password:JiraMeta.token
+    },
+    headers: {
+      "Content-Type": "application/json",
+      'Accept': 'application/json',
+    },
+  });
+}
+
 // TODO: este llamada es bastante similar a la llamada de Github. Hiciera sentido usar una interfaz?
-async function updateTicketSummary(ticketId, newSummary) {
+// hacer lo mismo que github tener un metodo donde pueda crear una instancia de axios con la URL y el auth configurado
+async function updateTicketSummary(ticketId, axiosInstance) {
   try {
     // get list of transaction using a get method, then with that id use a post method to trigger a transition
-    const response = await axios.post(
-      `https://Kiri23.atlassian.net/rest/api/3/issue/${ticketId}/transitions`,
+    const response = await axiosInstance.post(
+      `rest/api/3/issue/${ticketId}/transitions`,
       {
         transition:{
             id: 31
         }
-      },
-      {
-        auth:{
-            username:"christian_nogueras94@hotmail.com",
-            password:process.env.JIRA_TOKEN
-        },
-        headers: {
-          "Content-Type": "application/json",
-          'Accept': 'application/json',
-        },
       }
     );
     console.log(response.data)
@@ -34,8 +35,9 @@ async function updateTicketSummary(ticketId, newSummary) {
   }
 }
 
+module.exports = {updateTicketSummary, configureJira}
 // Ejemplo de uso: actualizar el resumen del ticket "PPA-2"
-updateTicketSummary("PPA-2", "Nuevo resumen del ticket usando API");
+// updateTicketSummary("PPA-2", "Nuevo resumen del ticket usando API");
 
 /**
  * gett all status using a get request `https://Kiri23.atlassian.net/rest/api/3/issue/${ticketId}?fields=status`,
